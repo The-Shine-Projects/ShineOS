@@ -61,3 +61,7 @@ The font and icon/theme source directories did not expose license files in
 the inspected locations. Review their redistribution terms before publishing
 an ISO. Keep each upstream author's licensing notices with any assets for
 which they are present.
+
+## History
+
+ShineOS was originally based on Origin UI 26 Sedona Beta 2 by The Ester Project, and early versions also used Ubuntu code by Canonical. It is now an independent Debian-based distribution. See CREDITS.txt.
