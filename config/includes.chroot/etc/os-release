@@ -1,0 +1,9 @@
+NAME="ShineOS"
+PRETTY_NAME="ShineOS 1 Experimental Beta"
+ID=shineos
+ID_LIKE=debian
+VERSION_ID="1"
+VERSION_CODENAME=trixie
+VERSION="1 Experimental Beta"
+VARIANT="Experimental Beta"
+VARIANT_ID=experimental-beta

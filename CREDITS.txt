@@ -1,0 +1,18 @@
+Credits
+
+The Shine Project
+- Alex (Starlight): design, coding, creator of Shine
+- Sushinoroll: community staff, founder of Quific
+- Cliff Emanuel: designer for the original TikTok slideshow showcase
+- AETHER: designer for Shine and AZUsystem
+- elfo: made the ShineOS ad
+
+Wallpaper
+- shineos-default.jpg: photo by Daniel Olah on Unsplash, used under the Unsplash License (https://unsplash.com/license).
+
+Fonts (SIL Open Font License 1.1)
+- JetBrains Mono: The JetBrains Mono Project Authors
+- Instrument Sans: The Instrument Sans Project Authors
+
+Build
+- MTSyntho: ISO builds and live-build setup

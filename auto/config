@@ -1,0 +1,20 @@
+#!/bin/sh
+set -eu
+
+lb config noauto \
+	--distribution trixie \
+	--distribution-chroot trixie \
+	--distribution-binary trixie \
+	--architecture amd64 \
+	--binary-images iso-hybrid \
+	--debian-installer live \
+	--debian-installer-distribution trixie \
+	--backports true \
+	--archive-areas 'main contrib non-free non-free-firmware' \
+	--image-name shineos \
+	--iso-volume SHINEOS \
+	--iso-application 'ShineOS Live' \
+	--iso-publisher 'The Shine Project' \
+	--chroot-squashfs-compression-type gzip \
+	--chroot-squashfs-compression-level 1 \
+	--cache false

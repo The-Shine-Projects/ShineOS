@@ -1,0 +1,93 @@
+#!/bin/sh
+set -eu
+
+SOURCE=/usr/share/shineos/extensions-source
+DEST=/usr/share/gnome-shell/extensions
+mkdir -p "$DEST"
+
+# Captured files came from a private user extension directory and can be mode
+# 0600. Make their metadata, schemas, and source readable by desktop users.
+if [ -d "$SOURCE" ]; then
+	chmod -R a+rX "$SOURCE"
+fi
+
+# These extensions were explicitly excluded from ShineOS. Remove stale copies
+# left behind by an earlier chroot build so they cannot leak into the image.
+for retired in \
+	gsconnect@andyholmes.github.io \
+	weatherornot@somepaulo.github.io \
+	screenshot-window-sizer@gnome-shell-extensions.gcampax.github.com
+do
+	rm -rf "$DEST/$retired"
+done
+
+SHELL_VERSION=$(dpkg-query -W -f='${Version}' gnome-shell | sed -E 's/^[0-9]+://' | cut -d. -f1)
+COMPATIBLE_EXTENSIONS=$(mktemp)
+trap 'rm -f "$COMPATIBLE_EXTENSIONS"' EXIT
+
+# Keep every captured extension source in /usr/share/shineos. Install only
+# extensions whose metadata declares compatibility with this image's GNOME.
+for extension in "$SOURCE"/*; do
+	[ -d "$extension" ] || continue
+	metadata="$extension/metadata.json"
+	[ -f "$metadata" ] || continue
+	if ! python3 - "$metadata" "$SHELL_VERSION" <<'PY'
+import json, sys
+try:
+    data = json.load(open(sys.argv[1], encoding='utf-8'))
+    compatible = sys.argv[2] in [str(v) for v in data.get('shell-version', [])]
+except Exception:
+    compatible = False
+raise SystemExit(0 if compatible else 1)
+PY
+	then
+		continue
+	fi
+	uuid=$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))["uuid"])' "$metadata")
+	install -d "$DEST/$uuid"
+	cp -a "$extension/." "$DEST/$uuid/"
+	chmod -R a+rX "$DEST/$uuid"
+	printf '%s\n' "$uuid" >> "$COMPATIBLE_EXTENSIONS"
+done
+
+# Keep the configured enabled-extension list in sync with the compatible
+# extensions actually present in the image, including Debian-packaged ones.
+python3 - "$SHELL_VERSION" "$COMPATIBLE_EXTENSIONS" /etc/dconf/db/local.d/00-shineos "$DEST" <<'PY'
+import ast, json, os, re, sys
+version, compatible_file, settings_file, extension_dir = sys.argv[1:]
+compatible = set(open(compatible_file, encoding='utf-8').read().splitlines())
+for name in os.listdir(extension_dir):
+    metadata = os.path.join(extension_dir, name, 'metadata.json')
+    try:
+        data = json.load(open(metadata, encoding='utf-8'))
+    except (OSError, json.JSONDecodeError):
+        continue
+    if version in [str(v) for v in data.get('shell-version', [])]:
+        compatible.add(str(data.get('uuid', name)))
+
+with open(settings_file, encoding='utf-8') as f:
+    content = f.read()
+match = re.search(r"^enabled-extensions=(\[.*\])$", content, re.M)
+if match:
+    configured = ast.literal_eval(match.group(1))
+    enabled = [uuid for uuid in configured if uuid in compatible]
+    content = content[:match.start(1)] + repr(enabled) + content[match.end(1):]
+    with open(settings_file, 'w', encoding='utf-8') as f:
+        f.write(content)
+PY
+
+install -d /etc/dconf/db/local.d
+if command -v dconf >/dev/null 2>&1; then
+	dconf update || true
+fi
+fc-cache -f /usr/share/fonts || true
+gtk-update-icon-cache /usr/share/icons/Starcons 2>/dev/null || true
+if [ -d /usr/share/plymouth/themes/shineos ] && command -v plymouth-set-default-theme >/dev/null 2>&1; then
+	plymouth-set-default-theme shineos || true
+fi
+if [ -d /usr/share/grub/themes/shineos ]; then
+	install -d /etc/default/grub.d
+	cat > /etc/default/grub.d/10-shineos-theme.cfg <<'EOF'
+GRUB_THEME=/usr/share/grub/themes/shineos/theme.txt
+EOF
+fi

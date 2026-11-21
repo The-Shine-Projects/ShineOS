@@ -1,0 +1,17 @@
+# Debian live-build artifacts
+.build/
+cache/
+chroot/
+chroot.*
+binary/
+binary.modified_timestamps
+source/
+output/
+*.iso
+*.img
+*.zsync
+*.contents
+*.files
+*.packages
+*.log
+wget-log*

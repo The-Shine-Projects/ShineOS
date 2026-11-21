@@ -1,0 +1,24 @@
+desktop-color: "#0a0f20"
+desktop-image: "shineos-logo.png"
+title-color: "#f5f8ff"
+title-font: "Unifont Regular 16"
+title-text: "ShineOS"
+message-font: "Unifont Regular 16"
+terminal-font: "Unifont Regular 16"
+
++ boot_menu {
+    left = 12%
+    width = 76%
+    top = 50%
+    height = 42%
+    item_color = "#c5cde0"
+    item_font = "Unifont Regular 16"
+    selected_item_color = "#ffffff"
+    selected_item_font = "Unifont Regular 16"
+    item_height = 18
+    item_padding = 4
+    item_spacing = 4
+    icon_width = 0
+    icon_height = 0
+    item_icon_space = 0
+}
