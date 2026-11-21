@@ -4,7 +4,7 @@ The Shine Project
 - Alex (Starlight): design, coding, creator of Shine
 - Sushinoroll: community staff, founder of Quific
 - Cliff Emanuel: designer for the original TikTok slideshow showcase
-- AETHER: designer for Shine and AZUsystem
+- AETHER: designer for Shine and AzuSystem
 - elfo: made the ShineOS ad
 
 Wallpaper
@@ -15,7 +15,8 @@ Fonts (SIL Open Font License 1.1)
 - Instrument Sans: The Instrument Sans Project Authors
 
 Build
-- MTSyntho: ISO builds and live-build setup
+- Alex (Starlight): Initial setup of live-build profile
+- MTSyntho: ISO build automation
 
 GNOME Shell extensions (each under its own license, see its LICENSE file)
 - GSConnect (gsconnect@andyholmes.github.io): https://github.com/GSConnect/gnome-shell-extension-gsconnect/wiki

@@ -33,9 +33,9 @@ content the same; the image is larger than with high-ratio compression.
 From this directory, use the standard live-build steps:
 
 ```sh
-sudo lb clean
-sudo ./auto/config
-sudo taskset -c 0 lb build
+chmod +x build.sh
+sudo build.sh
+# You can also opt to use the build_onecore.sh, albeit most users won't need it...
 ```
 
 `auto/config` restores the Trixie installer, backports access, and low-memory
