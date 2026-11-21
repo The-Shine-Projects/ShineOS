@@ -1,0 +1,32 @@
+# Taken from https://github.com/AzuSystem/live-build/blob/main/.github/workflows/linux-build.yml
+
+name: Build an ISO 
+
+on:
+    workflow_dispatch:
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        container:
+          image: debian:trixie
+          options: --privileged
+        steps:
+            - uses: actions/checkout@v2
+            - name: Update & Install tooling
+              run: |
+                  apt update
+                  apt install -y live-build
+
+            - name: Build ISO
+              run: |
+                  chmod +x auto/config
+                  lb clean
+                  lb config
+                  lb build
+        
+            - name: Upload artifact
+              uses: actions/upload-artifact@v4.6.2
+              with:
+                name: shineos-image
+                path: ./*.iso
