@@ -43,6 +43,7 @@ Preinstalled software (each under its own license)
 - GNOME desktop, GNOME Shell and its bundled extensions (including User Themes): by the GNOME Project (https://www.gnome.org)
 - Debian: the base system, by the Debian Project (https://www.debian.org)
 - MacTahoe-Dark GTK theme: by vinceliuice (https://github.com/vinceliuice/MacTahoe-gtk-theme)
+- WhiteSur GTK theme, which MacTahoe is based on: by vinceliuice (https://github.com/vinceliuice/WhiteSur-gtk-theme)
 
 Origins
 - Origin UI 26 Sedona Beta 2, by The Ester Project (https://theesterproject.com): the operating system ShineOS was originally based on, before becoming an independent Debian-based distribution.
