@@ -83,7 +83,7 @@ fi
 fc-cache -f /usr/share/fonts || true
 gtk-update-icon-cache /usr/share/icons/Starcons 2>/dev/null || true
 if [ -d /usr/share/plymouth/themes/shineos ] && command -v plymouth-set-default-theme >/dev/null 2>&1; then
-	plymouth-set-default-theme shineos || true
+	plymouth-set-default-theme -R shineos || true
 fi
 if [ -d /usr/share/grub/themes/shineos ]; then
 	install -d /etc/default/grub.d
