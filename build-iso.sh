@@ -33,8 +33,8 @@ fi
 	cd "$work"
 	lb config
 )
-echo "Building ShineOS for Debian Trixie on CPU $cpu with gzip level 1."
-(cd "$work" && taskset -c "$cpu" lb build)
+echo "Building ShineOS for Debian Trixie on all CPU cores."
+(cd "$work" && nice -n 10 lb build)
 
 iso=$(find "$work" -maxdepth 2 -type f -name '*.iso' -print -quit)
 if [ -z "$iso" ]; then
